@@ -44,3 +44,23 @@ getRepoContributors("jquery", "jquery", (data) => {
 // });
 
 
+
+function downloadImageByURL(url, filePath) {
+  var request = require('request');
+  var fs = require('fs');
+  request.get(url)
+    .on('error', function (err) {
+      throw err;
+    })
+    .on('response', function (response) {
+      console.log(response.statusMessage, response.headers["content-type"]);
+    })
+    .pipe(fs.createWriteStream('./avatar.jpg'));
+}
+
+downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg")
+
+
+
+
+
