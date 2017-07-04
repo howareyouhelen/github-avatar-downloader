@@ -29,7 +29,9 @@ function getRepoContributors(repoOwner, repoName, cb) {
 })
 }
 
-getRepoContributors("jquery", "jquery", (data) => {
+var repoName = process.argv [2];
+var repoUser = process.argv[3];
+getRepoContributors(repoName, repoUser, (data) => {
 
   data.forEach((contributor) => {
     var path = `./avatars/${contributor.login}.jpg`;
