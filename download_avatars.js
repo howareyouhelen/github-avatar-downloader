@@ -32,13 +32,17 @@ function getRepoContributors(repoOwner, repoName, cb) {
 var repoName = process.argv [2];
 var repoUser = process.argv[3];
 getRepoContributors(repoName, repoUser, (data) => {
-
-  data.forEach((contributor) => {
-    var path = `./avatars/${contributor.login}.jpg`;
-    //${contributor.login}.jpg = name of the image
-    // ./avatars = where we are storing our images
-    downloadImageByURL(contributor.avatar_url, path);
-  });
+  if (!repoName || !repoUser) {
+    console.log("Please enter repoName and repoOwner to continue");
+    return;
+  } else {
+    data.forEach((contributor) => {
+      var path = `./avatars/${contributor.login}.jpg`;
+      //${contributor.login}.jpg = name of the image
+      // ./avatars = where we are storing our images
+      downloadImageByURL(contributor.avatar_url, path);
+    });
+  };
 });
 
 
