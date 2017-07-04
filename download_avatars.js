@@ -2,16 +2,11 @@ var request = require('request');
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
-
-var GITHUB_USER = "YOUR USERNAME HERE";
-var GITHUB_TOKEN = "YOUR ACCESSTOKEN HERE";
-
-
 function options(path){
   return {
     url: "https://api.github.com" + path,
     headers: {
-      "user-agent": "yogurt"
+      'User-Agent': 'yogurt'
     },
     qs: {
       access_token: process.env.GITHUB_ACCESS_TOKEN
@@ -22,12 +17,30 @@ function options(path){
 
 function getRepoContributors(repoOwner, repoName, cb) {
   const path = `/repos/${repoOwner}/${repoName}/contributors`;
+
   request(options(path), function (err, response, body) {
-    console.log(body)
+    try {
+      cb(JSON.parse(body));
+
+    } catch (err) {
+      console.log(err);
+      console.log("Failed to parse content body");
+    }
 })
 }
 
-  getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log("Errors:", err);
-  console.log("Result:", result);
+getRepoContributors("jquery", "jquery", (data) => {
+
+  data.forEach((contributor) => {
+    console.log(contributor.avatar_url);
+  });
 });
+
+
+
+// getRepoContributors("jquery", "jquery", function(err, result) {
+// console.log("Errors:", err);
+// console.log("Result:", result);
+// });
+
+
